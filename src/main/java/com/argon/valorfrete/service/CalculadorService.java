@@ -1,0 +1,89 @@
+package com.argon.valorfrete.service;
+
+import java.util.Optional;
+import java.util.Scanner;
+import java.util.logging.StreamHandler;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.reactive.function.client.WebClient;
+
+import com.argon.valorfrete.client.dto.ParamentrosDto;
+import com.argon.valorfrete.helper.StreamHelper;
+import com.argon.valorfrete.model.Config;
+import com.argon.valorfrete.model.Produto;
+import com.argon.valorfrete.repository.ConfigRepository;
+import com.argon.valorfrete.repository.ProdutoRepository;
+
+@Service
+public class CalculadorService {
+
+	private boolean system = true;
+
+	@Autowired
+	private ConfigRepository configRepository;
+
+	@Autowired
+	private ProdutoRepository produtoRepository;
+
+	@Autowired
+	private WebClient client;
+
+	public void inicial(Scanner scanner) {
+		system = true;
+
+		while (system) {
+			System.out.println("Selecione a acão de calculadora:");
+			System.out.println("0 - Exit");
+			System.out.println("1 - Calcular preço prazo");
+
+			int action = scanner.nextInt();
+
+			switch (action) {
+			case 1:
+				calcularPrecoPrazo(scanner);
+				break;
+
+			default:
+				system = false;
+				break;
+			}
+		}
+	}
+
+	private void calcularPrecoPrazo(Scanner scanner) {
+
+		String codigoEmpresa = "";
+		String senhaEmpresa = "";
+
+		Optional<Config> configOpt = configRepository.findById(1L);
+		if (configOpt.isPresent()) {
+			codigoEmpresa = configOpt.get().getCodigoEmpresa();
+			senhaEmpresa = configOpt.get().getSenhaEmpresa();
+		}
+
+		Optional<Produto> optional = produtoRepository.findById(1L);
+		if (!optional.isPresent()) {
+			System.out.println("Parametro do produto não cadastrado!");
+			System.out.println("\n");
+			return;
+		}
+
+		System.out.println("Informe o cep de origem");
+		String cepOrigem = scanner.next();
+
+		System.out.println("Informe o cep de origem");
+		String cepDestino = scanner.next();
+
+		ParamentrosDto parametros = new ParamentrosDto(codigoEmpresa, senhaEmpresa, optional.get(), cepOrigem,
+				cepDestino);
+
+		MultiValueMap<String, String> params = StreamHelper.converterNotNullObjeto(parametros);
+
+		String retorno = client.get().uri(uriBuilder -> uriBuilder.path("/calculador/CalcPrecoPrazo.asmx").queryParams(params).build()).retrieve()
+				.bodyToMono(String.class).block();
+		
+		System.out.println(retorno);
+	}
+}
