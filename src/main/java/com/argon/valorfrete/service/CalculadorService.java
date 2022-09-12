@@ -2,7 +2,6 @@ package com.argon.valorfrete.service;
 
 import java.util.Optional;
 import java.util.Scanner;
-import java.util.logging.StreamHandler;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +9,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.argon.valorfrete.client.dto.ParamentrosDto;
+import com.argon.valorfrete.client.form.PrazoForm;
+import com.argon.valorfrete.client.form.ServicoForm;
 import com.argon.valorfrete.helper.StreamHelper;
 import com.argon.valorfrete.model.Config;
 import com.argon.valorfrete.model.Produto;
@@ -81,9 +82,10 @@ public class CalculadorService {
 
 		MultiValueMap<String, String> params = StreamHelper.converterNotNullObjeto(parametros);
 
-		String retorno = client.get().uri(uriBuilder -> uriBuilder.path("/calculador/CalcPrecoPrazo.asmx").queryParams(params).build()).retrieve()
-				.bodyToMono(String.class).block();
-		
+		PrazoForm retorno = client.get()
+				.uri(uriBuilder -> uriBuilder.path("/calculador/CalcPrecoPrazo.aspx").queryParams(params).build())
+				.retrieve().bodyToMono(PrazoForm.class).block();
+
 		System.out.println(retorno);
 	}
 }

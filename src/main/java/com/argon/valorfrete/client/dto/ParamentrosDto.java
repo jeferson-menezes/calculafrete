@@ -7,22 +7,24 @@ import lombok.Getter;
 @Getter
 public class ParamentrosDto {
 
-	private String nCdEmpresa;
-	private String sDsSenha;
-	private String nCdServico;
-	private String sCepOrigem;
-	private String sCepDestino;
-	private double nVlPeso;
-	private int nCdFormato;
-	private double nVlComprimento;
-	private double nVlAltura;
-	private double nVlLargura;
-	private double nVlDiametro;
-	private String sCdMaoPropria;
-	private double nVlValorDeclarado;
-	private String sCdAvisoRecebimento;
+	private final String nCdEmpresa;
+	private final String sDsSenha;
+	private final String nCdServico;
+	private final String sCepOrigem;
+	private final String sCepDestino;
+	private final double nVlPeso;
+	private final int nCdFormato;
+	private final double nVlComprimento;
+	private final double nVlAltura;
+	private final double nVlLargura;
+	private final double nVlDiametro;
+	private final String sCdMaoPropria;
+	private final double nVlValorDeclarado;
+	private final String sCdAvisoRecebimento;
+	private final String StrRetorno;
 
-	public ParamentrosDto(String codigoEmpresa, String senhaEmpresa, Produto produto, String cepOrigem, String cepDestino) {
+	public ParamentrosDto(String codigoEmpresa, String senhaEmpresa, Produto produto, String cepOrigem,
+			String cepDestino) {
 
 		nCdEmpresa = codigoEmpresa;
 		sDsSenha = senhaEmpresa;
@@ -32,9 +34,12 @@ public class ParamentrosDto {
 		nVlPeso = produto.getPeso();
 		nCdFormato = produto.getFormato().getValue();
 		nVlComprimento = produto.getComprimento();
+		nVlAltura = produto.getAltura();
+		nVlLargura = produto.getLargura();
 		nVlDiametro = produto.getDiametro();
 		sCdMaoPropria = produto.getMaoPropria() ? "S" : "N";
 		nVlValorDeclarado = produto.getValorDeclarado();
 		sCdAvisoRecebimento = produto.getAvisoRecebimento() ? "S" : "N";
+		this.StrRetorno = "xml";
 	}
 }
