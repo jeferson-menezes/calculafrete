@@ -25,30 +25,24 @@ public class Produto {
 
 	@Enumerated(EnumType.STRING)
 	private CodigoServico codigoServico;
-	
-//	kg
+
 	private double peso;
-//	cm
 	private double comprimento;
-//	cm
 	private double altura;
-//	cm
 	private double largura;
-	
+
 	@Enumerated(EnumType.STRING)
 	private Formato formato = Formato.ENVELOPE;
-	
 //	não usar pois é para Formato Rolo
 	private double diametro = 0;
-	
+
 //	Indica se a encomenda será entregue com o serviço
 //	adicional mão própria.
 	private Boolean maoPropria = Boolean.FALSE;
-	
+
 	private double valorDeclarado = 0;
-	
-	
-	private Boolean avisoRecebimento = Boolean.FALSE;;
+
+	private Boolean avisoRecebimento = Boolean.FALSE;
 
 	public Produto() {
 	}
@@ -62,11 +56,20 @@ public class Produto {
 		this.largura = largura;
 	}
 
-	@Override
-	public String toString() {
-
-		return String.format("[ Código Serviço: %s - Peso: %s - Comprimento: %s - Altura: %s - Largura: %s ]", codigoServico,
-				peso, comprimento, altura, largura);
+	public Produto(Formato formato, double diametro, Boolean maoPropria, double valorDeclarado,
+			Boolean avisoRecebimento) {
+		this.formato = formato;
+		this.diametro = diametro;
+		this.maoPropria = maoPropria;
+		this.valorDeclarado = valorDeclarado;
+		this.avisoRecebimento = avisoRecebimento;
 	}
 
+	@Override
+	public String toString() {
+		return String.format(
+				"[ \n - Código Serviço: %s \n - Peso: %s \n - Comprimento: %s \n - Altura: %s \n - Largura: %s \n - Formato: %s \n - Diametro: %s \n - Mão Própria: %s \n - Valor Declarado: %s \n - Aviso Recebimento: %s \n]",
+				codigoServico, peso, comprimento, altura, largura, formato, diametro, maoPropria, valorDeclarado,
+				avisoRecebimento);
+	}
 }

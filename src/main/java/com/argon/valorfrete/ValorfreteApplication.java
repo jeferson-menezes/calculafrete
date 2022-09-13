@@ -17,7 +17,7 @@ public class ValorfreteApplication implements CommandLineRunner {
 
 	@Autowired
 	private ConfigService configService;
-	
+
 	@Autowired
 	private CalculadorService calculadorService;
 
@@ -33,7 +33,7 @@ public class ValorfreteApplication implements CommandLineRunner {
 		while (system) {
 			System.out.println("Selecione a acão:");
 
-			System.out.println("0 - Exit");
+			System.out.println("0 - Sair");
 			System.out.println("1 - Config");
 			System.out.println("2 - Calcular Preço Prazo");
 
@@ -50,8 +50,6 @@ public class ValorfreteApplication implements CommandLineRunner {
 				system = false;
 				break;
 			}
-
 		}
 	}
-
 }

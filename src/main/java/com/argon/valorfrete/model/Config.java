@@ -31,6 +31,6 @@ public class Config {
 
 	@Override
 	public String toString() {
-		return String.format("[ Código: %s - Senha: %s ]", codigoEmpresa, senhaEmpresa);
+		return String.format("[ \n - Código: %s \n - Senha: %s \n ]", codigoEmpresa, senhaEmpresa);
 	}
 }
