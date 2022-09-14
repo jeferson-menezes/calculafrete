@@ -56,15 +56,6 @@ public class Produto {
 		this.largura = largura;
 	}
 
-	public Produto(Formato formato, double diametro, Boolean maoPropria, double valorDeclarado,
-			Boolean avisoRecebimento) {
-		this.formato = formato;
-		this.diametro = diametro;
-		this.maoPropria = maoPropria;
-		this.valorDeclarado = valorDeclarado;
-		this.avisoRecebimento = avisoRecebimento;
-	}
-
 	@Override
 	public String toString() {
 		return String.format(

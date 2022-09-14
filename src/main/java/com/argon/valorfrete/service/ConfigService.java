@@ -55,6 +55,7 @@ public class ConfigService {
 				break;
 			case 4:
 				atualizarDimensoes(scanner);
+				break;
 			case 5:
 				atualizarDimensoesDefault(scanner);
 				break;
@@ -66,20 +67,42 @@ public class ConfigService {
 	}
 
 	private void atualizarDimensoesDefault(Scanner scanner) {
+
+		Optional<Produto> optional = produtoRepository.findById(1L);
+
+		if (optional.isEmpty()) {
+			System.out.println("Dimensões produto ainda não cadastrada!");
+			System.out.println("\n");
+			return;
+		}
+
 		System.out.println("Informe o formato do pacote");
 		Arrays.asList(Formato.values()).forEach(c -> System.out.println(c + " - " + c.getValue()));
-		Formato format = Formato.valueOf(scanner.next());
+		Formato formato = Formato.valueOf(scanner.next());
 
 		System.out.println("Informe o diametro do produto em CM");
 		double diametro = Double.valueOf(scanner.next());
 
-		System.out.println("Informe o diametro do produto em CM");
-		double maoPropria = Double.valueOf(scanner.next());
+		System.out.println("Informe se será entregue com o serviço adicional mão própria: (S ou N)");
+		String maoPropria = scanner.next();
 
-		double valorDeclarado;
-		double avisoRecebimento;
-//		new Produto(formato, diametro, maoPropria, valorDeclarado, avisoRecebimento);
+		System.out.println("Informe o valor declarado de serviço adicional");
+		double valorDeclarado = Double.valueOf(scanner.next());
 
+		System.out.println("Informe se será entregue com aviso de recebimento: (S ou N)");
+		String avisoRecebimento = scanner.next();
+
+		Produto produto = optional.get();
+		
+		produto.setFormato(formato);
+		produto.setDiametro(diametro);
+		produto.setMaoPropria("s".equals(maoPropria.toLowerCase()));
+		produto.setValorDeclarado(valorDeclarado);
+		produto.setAvisoRecebimento("s".equals(avisoRecebimento.toLowerCase()));
+		
+		produtoRepository.save(produto);
+		System.out.println("Autenticação atualizada com sucesso!");
+		System.out.println("\n");
 	}
 
 	private void atualizarDimensoes(Scanner scanner) {
